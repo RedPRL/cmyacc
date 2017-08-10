@@ -57,13 +57,13 @@ structure Codegen
          if    0 <= n < 2^(8 * size)
          then  l is a big-endian character list representing n
                |l| = stateSize
-               and 
+               and
                return l
       *)
       fun intToChars size n =
          let
-            val l = 
-               map 
+            val l =
+               map
                (fn w => Char.chr (Word.toInt w))
                (wordToBytelist (Word.fromInt n) [])
          in
@@ -129,7 +129,7 @@ structure Codegen
 
             val majorLimit =
                Int.max (stateCount, Vector.length rules + 1)
-                  
+
             val (majorSize, adjust) =
                if majorLimit <= 127 then
                   (1, 128)
@@ -170,7 +170,7 @@ structure Codegen
                    write "          val ";
                    write (Symbol.toValue action);
                    write " : ";
-                   
+
                    if isUnit dom then
                       write "unit"
                    else if isSolearg dom then
@@ -213,7 +213,7 @@ structure Codegen
 
                       write " }"
                       );
-   
+
                    write " -> ";
                    write (Symbol.toValue cod);
                    write "\n"
@@ -383,13 +383,13 @@ structure Codegen
                              end)
                       0
                       (rhs, args);
-      
+
                    write "rest => Value.";
                    write (Symbol.toValue (#2 (D.lookup nonterminals lhs)));
                    write "(Arg.";
                    write (Symbol.toValue action);
                    write " ";
-                   
+
                    (* If solearg, we suppress generating a record pattern. *)
                    if solearg then
                       write "arg0"

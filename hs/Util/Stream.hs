@@ -15,7 +15,7 @@ import Util.Memo
 
 
 data Front a b =
-   Nil 
+   Nil
  | Cons a b
 
 instance Show a => Show (Front a b) where
@@ -43,10 +43,10 @@ fromProcess m =
        x <- m;
        case x of
           {
-          Nothing -> 
+          Nothing ->
              return Nil ;
 
-          Just y -> 
+          Just y ->
              do {
                 s <- fromProcess m;
                 return (Cons y s)
@@ -100,11 +100,11 @@ fromLoop f seed =
 
 instance Monad m => Functor (Stream m) where
    fmap f (Stream m) =
-      Stream (liftM 
+      Stream (liftM
                  (\ fr -> case fr of
                              {
                              Nil -> Nil ;
-   
+
                              Cons h t -> Cons (f h) (fmap f t)
                              })
                  m)
@@ -146,7 +146,7 @@ stail s =
       case fr of
          {
          Nil -> error "Stream.stail: empty stream" ;
-         
+
          Cons _ t -> return t
          }
       }

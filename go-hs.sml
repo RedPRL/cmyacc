@@ -1,6 +1,6 @@
 structure Go = struct
 
-   val status = 
+   val status =
       MainHs.mainCmd "cmyacc-hs"
          (CommandLine.name (), CommandLine.arguments ())
 

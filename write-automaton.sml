@@ -45,7 +45,7 @@ structure WriteAutomaton
       fun writeItem (ctx as {outs, rules, start, ...}:ctx) ((rulenum, read, remaining), lookahead) =
          let
             fun write str = TextIO.output (outs, str)
-   
+
             val (lhs, rhs) =
                if rulenum = ~1 then
                   ("start", [start])
@@ -55,7 +55,7 @@ structure WriteAutomaton
                   in
                      (Symbol.toValue lhs, rhs)
                   end
-            
+
             fun loop n l =
                if n = 0 then
                   ()
@@ -181,7 +181,7 @@ structure WriteAutomaton
                    ))
                0
                (!lookaheadList)
-                   
+
          in
             ()
          end

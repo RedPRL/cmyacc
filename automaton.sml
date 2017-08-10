@@ -79,4 +79,4 @@ structure Automaton =
          automaton                                                          (* the automaton *)
 
    end
-                            
+

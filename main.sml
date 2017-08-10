@@ -5,7 +5,7 @@ functor MainFun (structure Parser : PARSER
    struct
 
       fun main infile outfile =
-          let 
+          let
              val ins = TextIO.openIn infile
 
              val program =
@@ -25,7 +25,7 @@ functor MainFun (structure Parser : PARSER
 
       exception Quit of string
       fun mainCmd name (_, args) =
-          let 
+          let
              (* Parse arguments *)
              val infile: string option ref = ref NONE
              val outfile: string option ref = ref NONE
@@ -33,33 +33,33 @@ functor MainFun (structure Parser : PARSER
                | loop ("-o" :: file :: args) =
                  if isSome (!outfile) then raise Quit "too many output files"
                  else (outfile := SOME file; loop args)
-               | loop (file :: args) = 
+               | loop (file :: args) =
                  if isSome (!infile) then raise Quit "too many input files"
                  else (infile := SOME file; loop args)
-             val () = loop args              
+             val () = loop args
 
              (* Validate arguments *)
-             val infile = 
-                case (!infile) of 
+             val infile =
+                case (!infile) of
                    NONE => raise Quit "not enough input files"
                  | SOME file => file
-             val outfile = 
+             val outfile =
                 case (!outfile) of
                    NONE => OS.Path.joinBaseExt {base = infile, ext = SOME extension}
                  | SOME file => file
-          in  
+          in
              main infile outfile; OS.Process.success
           end handle Process.Error => OS.Process.failure
                    | Parser.Error => OS.Process.failure
                    | Codegen.Error => OS.Process.failure
-                   | Quit msg => 
+                   | Quit msg =>
                      (print ("Error: " ^ msg ^ "\n\
                              \Usage: " ^ name ^ " file.cmyacc [-o file." ^ extension ^ "]\n\
                              \(Default output file is file.cmyacc." ^ extension ^ ")\n")
-                     ; OS.Process.failure) 
-                   | exn =>  
+                     ; OS.Process.failure)
+                   | exn =>
                      (print ("Failed with exception: " ^ exnName exn ^ "\n")
                      ; print ("[" ^ exnMessage exn ^ "]\n")
-                     ; OS.Process.failure) 
+                     ; OS.Process.failure)
 
    end

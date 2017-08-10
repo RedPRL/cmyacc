@@ -22,7 +22,7 @@ structure ParserHs =
             val sole_lident = Symbol.fromValue
 
             val sole_number = identity
-  
+
             type label = label
             val number_label = NumericLabel
 
@@ -30,11 +30,11 @@ structure ParserHs =
             val unlabeled_item = Unlabeled
             val labeled_item = Labeled
             val paren_item = identity
-  
+
             type constituents = constituent list
             val nil_constituents = null
             val cons_constituents = op ::
-  
+
             type precedence = precedence
             val empty_precedence = lift EmptyPrec
             val left_precedence = PrecLeft
@@ -47,7 +47,7 @@ structure ParserHs =
             type productions = production list
             val nil_productions = null
             val cons_productions = op ::
-  
+
             type qident = string list
             fun sing_qident ident = [ident]
             fun cons_qident (h, t) = h :: "." :: t
@@ -63,13 +63,13 @@ structure ParserHs =
             val nonterminal_directive = Nonterminal
             val start_directive = Start
             val follower_directive = Follower
-  
+
             type directives = directive list
             val nil_directives = null
             val cons_directives = op ::
-  
+
             datatype terminal = datatype TokenHs.token
-  
+
             fun error s =
                (case Stream.front s of
                    Stream.Nil =>

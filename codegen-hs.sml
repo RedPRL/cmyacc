@@ -43,13 +43,13 @@ structure CodegenHs
          then  l is a big-endian list of chars representing n
                |l| = stateSize
                l' = map Char.ord l
-               and 
+               and
                return l'
       *)
       fun intToChars size n =
          let
-            val l = 
-               map 
+            val l =
+               map
                (fn w => Word.toInt w)
                (wordToBytelist (Word.fromInt n) [])
          in
@@ -85,7 +85,7 @@ structure CodegenHs
                        ))
 
             val monadic = D.member options (Symbol.fromValue "monadic")
-         
+
             val (terminalOrdinals, terminalCount) =
                D.foldl
                (fn (terminal, _, (ordinals, count)) =>
@@ -127,7 +127,7 @@ structure CodegenHs
 
             val majorLimit =
                Int.max (stateCount, Vector.length rules + 1)
-                  
+
             val (majorSize, adjust) =
                if majorLimit <= 127 then
                   (1, 128)
@@ -221,7 +221,7 @@ structure CodegenHs
             else
                ();
             write " Control.Exception.SomeException,\n\n         {- type arguments -}\n";
-            
+
             appSeparated
                (fn typeName =>
                    (
@@ -249,7 +249,7 @@ structure CodegenHs
                       write "         ";
                       write (Symbol.toValue actionName);
                       write " :: ";
-   
+
                       (* By construction, we have a complete, no-duplicate sequence from 1 to some n. *)
                       app
                          (fn (_, tp) =>
@@ -258,7 +258,7 @@ structure CodegenHs
                              write " -> "
                              ))
                          dom';
-   
+
                       write (Symbol.toValue cod)
                    end)
                (fn () => write ",\n")
@@ -350,7 +350,7 @@ structure CodegenHs
             else
                ();
             write " Control.Exception.SomeException";
-            
+
             app
             (fn typeName =>
                 (
@@ -375,7 +375,7 @@ structure CodegenHs
                       write ",\n";
                       write (Symbol.toValue actionName);
                       write " :: ";
-   
+
                       (* By construction, we have a complete, no-duplicate sequence from 1 to some n. *)
                       app
                          (fn (_, tp) =>
@@ -384,7 +384,7 @@ structure CodegenHs
                              write " -> "
                              ))
                          dom';
-   
+
                       write (Symbol.toValue cod)
                    end)
                actions;
@@ -588,7 +588,7 @@ structure CodegenHs
                                 raise (Fail "invariant"))
                          0
                          args;
-                      
+
                       Array.app
                          (fn n =>
                              (

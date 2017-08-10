@@ -54,7 +54,7 @@ structure MakeAutomaton
                    rules : rule Vector.vector,
                    nullableTable : bool SymbolTable.table,
                    firstTable : S.set SymbolTable.table }
-      
+
 
 
       fun nullableMain (ctx as {nonterminals, rules, nullableTable, ...}:ctx) trail symbol =
@@ -121,7 +121,7 @@ structure MakeAutomaton
                              S.empty
                              rulenums
                           end))
-   
+
       and rhsFirstMain ctx trail rhs =
          (case rhs of
              [] =>
@@ -144,7 +144,7 @@ structure MakeAutomaton
                    SymbolTable.insert firstTable symbol set;
                    set
                 end)
-         
+
       fun rhsFirst ctx rhs lookahead =
          (case rhs of
              [] =>
@@ -157,7 +157,7 @@ structure MakeAutomaton
                 else
                    first ctx symbol)
 
-      
+
 
       fun closure (ctx as {nonterminals, rules, ...}:ctx) d =
          let
@@ -191,7 +191,7 @@ structure MakeAutomaton
                                          (fn (rulenum, d) =>
                                              let
                                                 val (_, _, _, rhs, _, _, _, _, _) = Vector.sub (rules, rulenum)
-   
+
                                                 val item = (rulenum, 0, rhs)
                                              in
                                                 (case ItemDict.find d item of
@@ -206,7 +206,7 @@ structure MakeAutomaton
                                                        else
                                                           (* The LR(0) item is there, but it is needs additional lookahead so keep going. *)
                                                           let
-                                                             val lookaheadNew = 
+                                                             val lookaheadNew =
                                                                 S.union lookahead' lookaheadOld
                                                           in
                                                              IQueue.insert queue (item, lookaheadNew);
@@ -219,7 +219,7 @@ structure MakeAutomaton
                                       loop d'
                                    end))
                   end
-            
+
          in
             loop d
          end
@@ -234,7 +234,7 @@ structure MakeAutomaton
          S.set ItemDict.dict     (* LR(0) items, mapped to lookahead *)
 
 
-         
+
       val shiftConflicts = ref false
       val reduceConflicts = ref false
 
@@ -351,7 +351,7 @@ structure MakeAutomaton
                closure ctx (ItemDict.singleton (~1, 0, [start]) followers)
             val initialPrestate =
                ref (0, D.empty, initialDict)
-            
+
             val stateCount = ref 1
 
             val stateTable : prestate ref ItemListTable.table = ItemListTable.table 200
@@ -486,7 +486,7 @@ structure MakeAutomaton
                       print " is unreachable.\n"
                       ))
                nonterminals
-               
+
          in
             (!stateCount, states, rules, start)
          end

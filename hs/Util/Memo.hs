@@ -41,7 +41,7 @@ instance MonadMemo (ST s) where
    memo m =
       do {
          r <- mfix
-              (\ r -> 
+              (\ r ->
                  newSTRef (do {
                               x <- m;
                               writeSTRef r (return x);

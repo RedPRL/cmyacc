@@ -1,6 +1,6 @@
 
 structure LexerHs
-   :> LEXER 
+   :> LEXER
       where type token = TokenHs.token
    =
    struct
@@ -9,7 +9,7 @@ structure LexerHs
 
       structure Table =
          HashTable (structure Key = StringHashable)
-         
+
       val keywords : token option Table.table = Table.table 60
 
       (* Illegal identifiers (most are Haskell reserved words). *)
@@ -65,7 +65,7 @@ structure LexerHs
          ("terminal", TERMINAL)
          ]
 
-        
+
 
       open Stream
 
@@ -73,14 +73,14 @@ structure LexerHs
 
       type t = int -> (token * pos) front
       type u = int -> char stream * int
-  
+
       type self = { lexmain : char stream -> t,
                     skipcomment : char stream -> u }
 
       type info = { match : char list,
-                    len : int, 
-                    start : char stream, 
-                    follow : char stream, 
+                    len : int,
+                    start : char stream,
+                    follow : char stream,
                     self : self }
 
       exception Error
@@ -100,12 +100,12 @@ structure LexerHs
             type u = u
             type self = self
             type info = info
-  
+
             fun eof _ _ = Nil
-  
-            val ident = 
+
+            val ident =
                action
-               (fn (chars, _, pos) => 
+               (fn (chars, _, pos) =>
                       let
                          val str = implode chars
                       in
@@ -133,32 +133,32 @@ structure LexerHs
                            | SOME (SOME token) =>
                                 (token, pos))
                       end)
-  
-            val number = 
-               action 
+
+            val number =
+               action
                (fn (chars, _, pos) =>
                       ((case Int.fromString (implode chars) of
-                           SOME n => 
+                           SOME n =>
                               (NUMBER n, pos)
                          | NONE =>
                               raise (Fail "invariant"))
-                       handle Overflow => 
+                       handle Overflow =>
                                  (
                                  print "Illegal constant at ";
                                  print (Int.toString pos);
                                  print ".\n";
                                  raise Error
                                  )))
-  
+
             fun skip ({ len, follow, self, ... }:info) pos = #lexmain self follow (pos+len)
-  
+
             fun lcomment ({ len, follow, self, ...}:info) pos =
                 let
                    val (follow', pos') = #skipcomment self follow (pos+len)
                 in
                    #lexmain self follow' pos'
                 end
-  
+
             fun error _ pos =
                (
                print "Lexical error at ";
@@ -166,27 +166,27 @@ structure LexerHs
                print ".\n";
                raise Error
                )
-                   
+
             val arrow = simple ARROW
             val colon = simple COLON
             val dot = simple DOT
             val equal = simple EQUAL
             val lparen = simple LPAREN
             val rparen = simple RPAREN
-  
+
             fun comment_open ({ len, follow, self, ... }:info) pos =
                 let
                    val (follow', pos') = #skipcomment self follow (pos+len)
                 in
                    #skipcomment self follow' pos'
                 end
-  
-            fun comment_close ({ len, follow, ...}:info) pos = 
+
+            fun comment_close ({ len, follow, ...}:info) pos =
                 (follow, pos+len)
-  
+
             fun comment_skip ({ len, follow, self, ... }:info) pos =
                 #skipcomment self follow (pos+len)
-  
+
             fun comment_error _ pos =
                (
                print "Unclosed comment at ";

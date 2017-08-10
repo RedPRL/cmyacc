@@ -308,7 +308,7 @@ structure Process
                                                         true
                                                    | Numbers (set, n) =>
                                                         (* Every number in set is positive.
-                                                           Therefore, set = {1 .. n} (for some n) 
+                                                           Therefore, set = {1 .. n} (for some n)
                                                            iff |set| = max(set).
                                                         *)
                                                         if IntSet.size set = n then
@@ -355,7 +355,7 @@ structure Process
                                                               NONE =>
                                                                  []
                                                             | SOME l => l)
-                                                          
+
                                                        val actioninfo' =
                                                           (name, localnumber, actionargs, tp)
                                                           ::
@@ -417,7 +417,7 @@ structure Process
                                                                         else
                                                                            n-1))
                                                         end)
-                                                              
+
                                            in
                                               ((globalnumber, localnumber, name, rev rhsrev, rev argsrev, solearg, action, prec', ref false) :: acc,
                                                actions'',
@@ -607,7 +607,7 @@ structure Process
                              (action, dom, cod) :: actions'
                           end))
                []
-               (!actions)                          
+               (!actions)
 
          in
             (!options, !types, terminals', nonterminals', actions',

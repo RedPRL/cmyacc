@@ -21,7 +21,7 @@ structure Parser =
             val sole_ident = Symbol.fromValue
 
             val sole_number = identity
-  
+
             type label = label
             val ident_label = IdentLabel
             val number_label = NumericLabel
@@ -30,11 +30,11 @@ structure Parser =
             val unlabeled_item = Unlabeled
             val labeled_item = Labeled
             val paren_item = identity
-  
+
             type constituents = constituent list
             val nil_constituents = null
             val cons_constituents = op ::
-  
+
             type precedence = precedence
             val empty_precedence = lift EmptyPrec
             val left_precedence = PrecLeft
@@ -47,7 +47,7 @@ structure Parser =
             type productions = production list
             val nil_productions = null
             val cons_productions = op ::
-  
+
             type directive = directive
             fun name_directive str = Option (Symbol.fromValue "name", str)
             fun terminal_directive (ident, prec) = Terminal (ident, NONE, prec)
@@ -55,13 +55,13 @@ structure Parser =
             val nonterminal_directive = Nonterminal
             val start_directive = Start
             val follower_directive = Follower
-  
+
             type directives = directive list
             val nil_directives = null
             val cons_directives = op ::
-  
+
             datatype terminal = datatype Token.token
-  
+
             fun error s =
                (case Stream.front s of
                    Stream.Nil =>

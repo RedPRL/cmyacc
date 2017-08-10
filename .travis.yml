@@ -1,0 +1,15 @@
+language: generic
+env:
+  - COMPILER=smlnj PACKAGES="smlnj"
+  - COMPILER=mlton PACKAGES="mlton"
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -y --force-yes ${PACKAGES}
+install:
+  - git submodule init
+  - git submodule update --init --recursive
+script:
+  - make ${COMPILER}
+
+notifications:
+  email: false

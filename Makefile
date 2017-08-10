@@ -12,25 +12,25 @@ all:
 
 # MLton
 .PHONY : mlton
-mlton: 
+mlton:
 	mlton -output bin/cmyacc cmyacc.mlb
 
 .PHONY : mlton+hs
-mlton+hs: 
+mlton+hs:
 	mlton -output bin/cmyacc-hs cmyacc-hs.mlb
 
 # SML/NJ
 .PHONY : smlnj
 smlnj:
 	sml export-smlnj.sml
-	bin/mknjexec-unixey `which sml` `pwd`/bin cmyacc-heapimg cmyacc 
+	bin/mknjexec-unixey `which sml` `pwd`/bin cmyacc-heapimg cmyacc
 
 .PHONY : smlnj+hs
 smlnj+hs:
 	sml export-smlnj-hs.sml
 	bin/mknjexec-unixey `which sml` `pwd`/bin cmyacc-hs-heapimg cmyacc-hs
 
-# Windows + SML/NJ 
+# Windows + SML/NJ
 .PHONY : win+smlnj
 win+smlnj:
 	sml export-smlnj.sml
